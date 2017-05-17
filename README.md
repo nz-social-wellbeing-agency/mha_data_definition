@@ -2,16 +2,9 @@
 Standard definition of mental health and addictions (MHA) service access based on available data in the IDI
 
 ## Overview
-Phase 1 of the MHA use case is designed to explore what we can learn about this population in the IDI.
-It is broken into five key parts:
+This folder contains all the code necessary to build the MHA data foundation definition. The detailed data definition documentation is being finalised and will be uploaded before the end of May.
 
-* A. Construction of a reusable MHA dataset known as the MHA data foundation
-* B. Identifying characteristics of those experiencing MHA distress
-* C. Looking at the characteristics of those who accessed MHA services
-* D. Identifying barriers to access for those experiencing MHA distress
-* E. Looking at how cross agency outcomes change for those experiencing MHA distress.
-
-This folder contains all the code necessary to run the step A for Phase 1. The code for the remaining steps will be made available when the results are published.
+The code for the MHA phase 1 analysis will be made available when the results are published.
 
 ## Dependencies
 * Since we are looking at the MHA population in the IDI it is necessary to have an IDI project if you wish to run the code. Visit the Stats NZ website for more information about this.
