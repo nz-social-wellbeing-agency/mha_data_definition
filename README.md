@@ -15,7 +15,6 @@ This folder contains all the code necessary to run the step A for Phase 1. The c
 
 ## Dependencies
 * Since we are looking at the MHA population in the IDI it is necessary to have an IDI project if you wish to run the code. Visit the Stats NZ website for more information about this.
-* It is necessary to download and run the social investment analytical layer scripts so that the SIAL tables exist for creating agency interactions and cross agency outcomes for those experiencing MHA distress.
 * The MHA code requires access to the following schemas in IDI_Clean
 	* data
 	* moh_clean
@@ -36,10 +35,9 @@ and also IDI_Metadata.clean_read_CLASSIFICATIONS.
 
 ## Installation
 1. Ensure you have an IDI project so you can run the code.
-2. Confirm you have the SIAL tables in your schema. If you do not then you will have to download the social investment analytical layer zip file from Github and follow the installation instructions in that reposiory first.
-3. Download the zipped file for the MHA phase 1 from Github.
-4. Email the zipped file(s) to access2microdata@stats.govt.nz and ask them to move it into your project folder.
-5. Unzip the files into your project. You can rename the project if you wish.
+2. Download the zipped file for the MHA phase 1 from Github.
+3. Email the zipped file(s) to access2microdata@stats.govt.nz and ask them to move it into your project folder.
+4. Unzip the files into your project. You can rename the project if you wish.
 
 
 ## Instructions to build the MHA data foundation
@@ -51,7 +49,7 @@ and also IDI_Metadata.clean_read_CLASSIFICATIONS.
 
 The hierarchy is shown below for anyone who wishes to make particular modifications to the data foundation
 
-SIAL dependency--- |---> setup for access   ---> build MHA events
+Setup Libnames ---> setup formats for access   ---> build MHA events
 
 Since the database does not allow the option of tables being replaced, the script always drops database tables before writing to the database. Expect warnings if these tables do not exist. They will not affect the build of the final table.
 
