@@ -2,7 +2,7 @@
 Standard definition of mental health and addictions (MHA) service access based on available data in the IDI
 
 ## Overview
-This folder contains all the code necessary to build the MHA data foundation definition. The detailed data definition documentation is being finalised and will be uploaded before the end of May.
+This folder contains all the code necessary to build the MHA data foundation definition. The detailed data definition documentation is available in the docs folder.
 
 The code for the MHA phase 1 analysis will be made available when the results are published.
 
