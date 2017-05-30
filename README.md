@@ -18,12 +18,12 @@ and also IDI_Metadata.clean_read_CLASSIFICATIONS.
 
 
 ## Folder descriptions
-**include:** This folder contains scripts necessary for the SIU themes and pieces of code that are generic i.e. can be used outside of MHA.
-**logs:** This folder is used to store the output logs that SAS generates. This is used for the cross agency outcomes that have a lot of code to run.
-**output:** This folder is used to store graphical and tabular output.
-**rprogs:** This folder contains r scripts for carrying out plots and R based analysis.
-**sasautos:** This folder contains SAS macros. All scripts in here will be loaded into the SAS environment during the running of setup in the main script.
-**sasprogs:** This folder contains SAS programs. The main script that builds the dataset is located in here.
+**include:** This folder contains scripts necessary for the SIU themes and pieces of code that are generic i.e. can be used outside of MHA.  
+**logs:** This folder is used to store the output logs that SAS generates. This is used for the cross agency outcomes that have a lot of code to run.  
+**output:** This folder is used to store graphical and tabular output.  
+**rprogs:** This folder contains r scripts for carrying out plots and R based analysis.  
+**sasautos:** This folder contains SAS macros. All scripts in here will be loaded into the SAS environment during the running of setup in the main script.  
+**sasprogs:** This folder contains SAS programs. The main script that builds the dataset is located in here.  
 **sql:** This folder contains the sql scripts. These are often used by the R scripts to query the database.
 
 ## Installation
