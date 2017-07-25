@@ -42,10 +42,13 @@ HISTORY:
 28 Feb 2017	CM - added disability format to this program so no longer dependent on 
 	other script. Also commented out incapacity code that doesn't actually 
 	get used in final events table
-10 May 2017	VB - Added Methadone (Chemical ID 1795) into the list of potential MH		
+10 May 2017 VB - Added Methadone (Chemical ID 1795) into the list of potential MH
 	drugs, based on feedback from MoH.
-15 May 2017    EW - Added three more chemicals lamotrigine, carbamazepine and sodium 
-                    valproate (chem id 1002, 1217, 2166) based on feedback from SJ, MOH
+15 May 2017 EW - Added three more chemicals lamotrigine, carbamazepine and sodium
+valproate (chem id 1002, 1217, 2166) based on feedback from SJ, MOH
+11 Jul 2017 VB - Moving Zopiclone (Chemical ID 2484) from "Other MH" to "Potential MH"
+	as this drug is a sedative/hypnotic used primarily for treatment of Insomnia (based
+	on discussions with MoJ)
 */
 
 /********************************************************************************
@@ -286,7 +289,7 @@ proc sql;
 					1166,6006,1780,
 					3750,3923,
 					1069,1193,1437,1438,1642,2466,3753,1824,1125,2285,1955,2301,3901,
-					1080,1729,1731,2295,2484,
+					1080,1729,1731,2295,
 					3884,3878,1078,1532,2820,1732,1990,1994,2255,2260,
 					2367,1432,3793,
 					2632,1315,3926,2636,1533,1535,1760,2638,1140,1911,6009,1950,1183,1011,3927,
@@ -294,8 +297,8 @@ proc sql;
 					/*potential inclusion*/
 					,1007,1013,1059,1111,1190,1226,1252,1273,1283,1316,1379,1389,1397,1578,1583,
 					1730,1799,1841,1865,1876,1956,2224,2298,2436,2530,2539,3248,3248,3722,3735,
-					3803,3892,3898,3920,3935,3940,3950,4025,4037,6007,8792,1795
-					/* additional potential inclusion post moh feedback */
+					3803,3892,3898,3920,3935,3940,3950,4025,4037,6007,8792,1795,2484
+					/* additional post moh feedback */
 					,1002,1217,2166
 				)
 );
@@ -356,18 +359,19 @@ data pharmac;
 		then event_type = 'Mood anxiety';
 
 	/* Other MH disorders */
-	if code in ('1080','1729','1731','2295','2484') then event_type = 'Other MH';
+	if code in ('1080','1729','1731','2295') then event_type = 'Other MH';
 
 	if code in ('1315','1533','1535','1140','1911','1950','1183','1011','3873','1642')
 		then event_type = 'Other MH';
-	
+
 	/* Added 1795 Methadone into the potentials list */
 	/* Added 1002 lamotrigine, 1217 carbamazepine, 2166 sodium valporate based on MOH feedback */
+	/* Added 2484 Zopiclone from Other MH to Potentials based on MoJ feedback*/
 	if code in ('1007','1013','1059','1111','1190','1226','1252','1273','1283','1316',
 				'1379','1389','1397','1578','1583','1730','1799','1841','1865','1876',
 				'1956','2224','2298','2436','2530','2539','3248','3248','3722','3735',
-				'3803','3892','3898','3920','3935','3940','3950','4025','4037','6007','8792',
-				'1795','1002','1217','2166')
+				'3803','3892','3898','3920','3935','3940','3950','4025','4037','6007','8792', 
+				'1795','1002','1217','2166','2484')
 		then event_type = 'Potential MH';
 
 	event_type_3 = "NA";
