@@ -12,14 +12,14 @@ $icd9sgl.
 
 
 
-AUTHOR: V Benny
+AUTHOR: Rissa Ota
 
 DATE: 06 April 2017
 
 NOTES: 
 
 HISTORY: 
-06 April 2017 	V Benny	 	v1
+06 April 2017 	V Benny	 	v1 Created a new file with just the formats.
 *********************************************************************************************************/
 
 proc format;
