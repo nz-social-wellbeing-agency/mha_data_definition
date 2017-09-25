@@ -33,6 +33,9 @@ HISTORY:
 /* Define any macro variables */
 %let use_case_path = \\<network-path>\<path-to-project-folder>\github_mental_health;
 
+/* Define the schema into which the output tables need to be written into*/
+%let schemaname = <project-database-schema>;
+
 /* Load all the sofie macros */
 options obs=MAX mvarsize=max pagesize=132
         append=(sasautos=("&use_case_path\sasautos"));
@@ -42,12 +45,11 @@ ods graphics on;
 
 /* Set up the libraries */
 %include "&use_case_path.\include\libnames.sas";
+libname sand ODBC dsn= idi_sandpit_srvprd schema="&schemaname." bulkload=yes;
 
 /*Include the macros to create the cpi adjustment*/
 %include "&use_case_path.\include\cpi_macros.sas";
 
-/* Define the schema into which the output tables need to be written into*/
-%let schemaname = <project-database-schema>;
 /***********************************************************************************************************/
 
 
