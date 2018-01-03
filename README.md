@@ -6,6 +6,23 @@ This folder contains all the code necessary to build the MHA data definition. Th
 
 The code for the MHA phase 1 analysis will be made available when the results are published.
 
+
+## License for MHA Data Definition Content
+[![License: CC BY SA 4.0](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)](https://creativecommons.org/licenses/by-sa/4.0/)
+
+Crown copyright ©. This copyright work is licensed under the Creative Commons Attribution 4.0 International licence. In essence, you are free to copy, distribute and adapt the work, as long as you attribute the work to the New Zealand Government and abide by the other licence terms. 
+
+To view a copy of this licence, visit [https://creativecommons.org/licenses/by-sa/4.0/](https://creativecommons.org/licenses/by-sa/4.0/). 
+
+Please note that neither the New Zealand Government emblem nor the New Zealand Government logo may be used in any way which infringes any provision of the [Flags, Emblems, and Names Protection Act 1981](http://www.legislation.govt.nz/act/public/1981/0047/latest/whole.html) or would infringe such provision if the relevant use occurred within New Zealand. Attribution to the New Zealand Government should be in written form and not by reproduction of any emblem or the New Zealand Government logo.
+
+## License for MHA Data Definition Code Base
+GNU GPLv3 License
+
+Crown copyright (c) 2017, Social Investment Agency on behalf of the New Zealand Government.
+
+See ![LICENSE.md](https://github.com/nz-social-investment-agency/mha_data_definition/blob/master/LICENSE) for more details.
+
 ## Dependencies
 * Since we are looking at the MHA population in the IDI it is necessary to have an IDI project if you wish to run the code. Visit the Stats NZ website for more information about this.
 * The MHA code requires access to the following schemas in IDI_Clean
