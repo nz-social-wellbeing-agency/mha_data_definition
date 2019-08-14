@@ -49,14 +49,20 @@ valproate (chem id 1002, 1217, 2166) based on feedback from SJ, MOH
 11 Jul 2017 VB - Moving Zopiclone (Chemical ID 2484) from "Other MH" to "Potential MH"
 	as this drug is a sedative/hypnotic used primarily for treatment of Insomnia (based
 	on discussions with MoJ)
+02 Aug 2019 AK - Updated Script to meet SAS Grid Standards.
 */
+
+%let version=20170720;
+libname moh ODBC dsn=idi_clean_&VERSION._srvprd schema=moh_clean;
+libname msd ODBC dsn=idi_clean_&VERSION._srvprd schema=msd_clean;
+
 
 /********************************************************************************
 (1) Programme for the Integration of Mental Health Data (PRIMHD) 
 ********************************************************************************/
 
 proc sql;
-	connect to odbc(dsn=idi_clean_archive_srvprd);
+	connect to odbc(dsn=idi_clean_20170720_srvprd);
 
 	create table primhd_team as
 		select 
@@ -64,8 +70,8 @@ proc sql;
 		   ,'MOH' as department
 		   ,'PRIMHD' as datamart
 		   ,'MH' as subject_area
-		   ,input(start_date, yymmdd10.) as start_date format = ddmmyy10.
-		   ,input(end_date, yymmdd10.) as end_date format = ddmmyy10. 
+		   ,start_date format = ddmmyy10.
+		   ,end_date format = ddmmyy10. 
 		   ,event_type
 		   ,moh_mhd_activity_type_code as event_type_2
 		   ,team_type as event_type_3
@@ -85,8 +91,8 @@ proc sql;
 					then 'Substance use'
 				when primhd.moh_mhd_activity_type_code <> '' then 'Other MH'
 			end as event_type
-		from IDI_Clean.moh_clean.primhd primhd	
-		left join IDI_Sandpit.clean_read_MOH_PRIMHD.moh_PRIMHD_TEAM_LOOKUP as team
+		from IDI_Clean_20170720.moh_clean.primhd primhd	
+		left join [IDI_Metadata].[clean_read_CLASSIFICATIONS].[moh_primhd_team_code] as team
 			on primhd.moh_mhd_team_code = team.team_code
 	);
 
@@ -105,8 +111,8 @@ proc sql;
 		 snz_uid
 	   ,snz_moh_uid as moh_uid
       ,moh_evt_event_id_nbr as event_id
-      ,input(compress(moh_evt_evst_date,"-"),yymmdd8.) format yymmdd10. as start_date
-      ,input(compress(moh_evt_even_date,"-"),yymmdd8.) format yymmdd10. as end_date
+      ,moh_evt_evst_date format yymmdd10. as start_date
+      ,moh_evt_even_date format yymmdd10. as end_date
 
    from moh.pub_fund_hosp_discharges_event;
 
@@ -183,7 +189,7 @@ data diag;
 		then do event_type = 'Anxiety'; output; end;
    if '3066' <= substr(code,1,4) <= '3069' then do event_type = 'Anxiety'; output; end;
    if '3080' <= substr(code,1,4) <= '3091' then do event_type = 'Anxiety'; output; end;
-   if '30922' <= substr(code,1,4) <= '30982' then do event_type = 'Anxiety'; output; end;
+   if '30922' <= substr(code,1,5) <= '30982' then do event_type = 'Anxiety'; output; end;
 
    /* Autism spectrum */
    if substr(code,1,5) in ('29900','29901','29910') then do event_type = 'Autism'; output; end;
@@ -209,6 +215,8 @@ data diag;
 
    /* Intellectual diabilility (Mental retardation) */
    if '317' <= substr(code,1,3) <= '319' then do event_type = 'Intellectual'; output; end;
+
+
 
    /* Other MH disorders */
    if '2930' <= substr(code,1,4) <= '2940' then do event_type = 'Other MH'; output; end;
@@ -237,12 +245,22 @@ data diag;
    keep event_id event_type code moh_dia_clinical_sys_code;
 run;
 
+
 /* Remove obvious duplicates*/
 proc sort data=diag 
 		  out=diagnosis(keep=event_id event_type code)
 		  nodupkey; 
 	by event_id event_type code; 
 run;
+
+proc sql;
+create table temp as
+select code, event_type, count(*) 
+from diagnosis
+group by code, event_type
+order  by code, event_type
+;
+quit;
 
 proc sql;
    create table NMDS_MentalHealth as
@@ -267,20 +285,20 @@ quit;
 /* Extract PHARMAC records for the drugs we are interested in */
 proc sql;
 
-	connect to odbc(dsn=idi_clean_archive_srvprd);
+	connect to odbc(dsn=idi_clean_20171020_srvprd);
 
 	create table pharmac1 as
 	select
 		snz_uid,
-		input(moh_pha_dispensed_date,yymmdd10.) as start_date,
-		input(moh_pha_dispensed_date,yymmdd10.) as end_date,
+		moh_pha_dispensed_date as start_date,
+		moh_pha_dispensed_date as end_date,
 		chemical_id
 	from connection to odbc(
 	select 
 			pharm.snz_uid as snz_uid, 
 			pharm.moh_pha_dispensed_date as moh_pha_dispensed_date, 
 			form.CHEMICAL_ID as chemical_id
-			from IDI_Clean.moh_clean.pharmaceutical pharm
+			from moh_clean.pharmaceutical pharm
 			inner join IDI_Metadata.clean_read_CLASSIFICATIONS.moh_dim_form_pack_subsidy_code form 
 				on (pharm.moh_pha_dim_form_pack_code = form.DIM_FORM_PACK_SUBSIDY_KEY)
 			where form.CHEMICAL_ID in 
@@ -305,6 +323,8 @@ proc sql;
 	
 	disconnect from odbc;
 quit;
+
+
 
 data pharmac2;
 	informat code $4.;
@@ -378,8 +398,16 @@ data pharmac;
 	keep snz_uid datamart start_date end_date event_type code event_type_3;
 	rename code=event_type_2;
 run;
+/*run to here*/
 
-
+proc sql;
+create table temp2 as
+select event_type_2, event_type, count(*) 
+from pharmac
+group by event_type_2, event_type
+order  by event_type_2, event_type
+;
+quit;
 /**************************************************************************************************
 (4) LAB Data 
 **************************************************************************************************/
@@ -391,7 +419,7 @@ proc sql;
 		snz_uid
 		,snz_moh_uid as mast_enc
 		,moh_lab_test_code as test_code
-		,input(compress(moh_lab_visit_date,"-"),yymmdd8.) format yymmdd10. as start_date
+		,moh_lab_visit_date format yymmdd10. as start_date
    from moh.lab_claims
    where test_code = 'BM2'
    order by mast_enc, start_date;
@@ -399,7 +427,7 @@ quit;
 
 /* Assign an episode variable where an episode is made up of tests that occurred less than
 four months apart between each */
-data labs_episode(keep=snz_uid start_date mast_enc episode weight);
+data labs_episode(keep=snz_uid start_date mast_enc episode weight lagdate);
    format lagdate yymmdd10.;
    retain episode;
    set lab_mast(keep=snz_uid start_date mast_enc);
@@ -486,8 +514,8 @@ proc sql noprint;
 			,'MSD' as department
 			,'ICP' as datamart
 			,'ICP' as subject_area
-			,input(msd_incp_incp_from_date, yymmdd10.) as start_date format = yymmdd10.
-			,input(msd_incp_incp_to_date, yymmdd10.) as end_date format = yymmdd10.
+			,msd_incp_incp_from_date as start_date format = yymmdd10.
+			,msd_incp_incp_to_date as end_date format = yymmdd10.
 			,0.00 as cost
 			,case
 				when put(msd_incp_incapacity_code, $icd9sgl.) = 'Mental retardation' then 'Intellectual'
@@ -507,6 +535,8 @@ proc sql noprint;
 			end_date;
 quit;
 
+proc freq data=msd_inc_mha_events;
+table event_type; run;
 /**************************************************************************************************
 (6) Combining data and creating final event_type datasets 
 **************************************************************************************************/
@@ -559,6 +589,16 @@ proc sql;
 quit;
 
 
+
+proc sql;
+create table test as
+select event_type ,count(*)
+from mh2
+group by event_type
+order by event_type
+;
+quit;
+
 proc sql; 
 	
 	/*Drop the target table if it exists in sand */
@@ -575,7 +615,7 @@ The 'Citalopram conflict' is resolved in the following section. Alternatively we
 ***************************************************************************************************/
 
 proc sql;
-connect to odbc(dsn=idi_clean_archive_srvprd);
+connect to odbc(dsn=idi_clean_20171020_srvprd);
 execute(
 	update [IDI_Sandpit].[&schemaname.].moh_diagnosis set event_type='Dementia'
 	from

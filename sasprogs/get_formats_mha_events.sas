@@ -19,7 +19,7 @@ DATE: 06 April 2017
 NOTES: 
 
 HISTORY: 
-06 April 2017 	V Benny	 	v1 Created a new file with just the formats.
+06 April 2017 	V Benny	 	v1	Created a new formats file from Rissa's code
 *********************************************************************************************************/
 
 proc format;
