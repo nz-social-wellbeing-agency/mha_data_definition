@@ -21,7 +21,7 @@ GNU GPLv3 License
 
 Crown copyright (c) 2017, Social Investment Agency on behalf of the New Zealand Government.
 
-See ![LICENSE.md](https://github.com/nz-social-investment-agency/mha_data_definition/blob/master/LICENSE) for more details.
+See ![LICENSE.md](https://github.com/nz-social-wellbeing-agency/mha_data_definition/blob/master/LICENSE) for more details.
 
 ## Dependencies
 * Since we are looking at the MHA population in the IDI it is necessary to have an IDI project if you wish to run the code. Visit the Stats NZ website for more information about this.
@@ -35,7 +35,7 @@ and also IDI_Metadata.clean_read_CLASSIFICATIONS.
 
 
 ## Folder descriptions
-**include:** This folder contains scripts necessary for the SIU themes and pieces of code that are generic i.e. can be used outside of MHA.  
+**include:** This folder contains scripts necessary for the themes and pieces of code that are generic i.e. can be used outside of MHA.  
 **logs:** This folder is used to store the output logs that SAS generates. This is used for the cross agency outcomes that have a lot of code to run.  
 **output:** This folder is used to store graphical and tabular output.  
 **rprogs:** This folder contains r scripts for carrying out plots and R based analysis.  
@@ -53,8 +53,8 @@ and also IDI_Metadata.clean_read_CLASSIFICATIONS.
 ## Instructions to build the MHA data foundation
 1. Open sasprogs/main.sas
 2. In the set up variable and macros section you will find two variables that you need to specify called `use_case_path` and `schemaname`
-3. Change `use_case_path` to the full path location of the project e.g. \\..\MAA2016-15 Supporting the Social Investment Unit\github_mental_health
-4. Change `schemaname` to the name of your schema  e.g. the SIU project schema is DL-MAA2016-15
+3. Change `use_case_path` to the full path location of your project
+4. Change `schemaname` to the name of your schema
 5. Once you have changed the variables you can run main.sas (this should build the data foundation in under 30 minutes)
 
 The hierarchy is shown below for anyone who wishes to make particular modifications to the data foundation
@@ -65,8 +65,4 @@ Since the database does not allow the option of tables being replaced, the scrip
 
 
 ## Getting Help
-More information to come. For now email info@siu.govt.nz
-
-Tracking number: SIU-2017-0138
-
-
+More information to come. For now email info@swa.govt.nz
