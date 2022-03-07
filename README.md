@@ -1,4 +1,4 @@
-## mha_data_definition
+## MHA data definition
 Standard definition of mental health and addictions (MHA) service access based on available data in the IDI
 
 ## Overview
@@ -63,6 +63,9 @@ Setup Libnames ---> setup formats for access   ---> build MHA events
 
 Since the database does not allow the option of tables being replaced, the script always drops database tables before writing to the database. Expect warnings if these tables do not exist. They will not affect the build of the final table.
 
+## Citation
+
+Social Wellbeing Agency (2017). MHA data definition. Source code. https://github.com/nz-social-wellbeing-agency/mha_data_definition
 
 ## Getting Help
 More information to come. For now email info@swa.govt.nz
